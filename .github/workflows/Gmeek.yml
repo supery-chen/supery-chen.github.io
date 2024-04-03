@@ -8,37 +8,6 @@ on:
     - cron: "0 16 * * *"
     
 jobs:
-  stop-previous-workflows:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Stop Previous Workflows
-        run: |
-          echo "Stopping previous workflows..."
-
-          # Get the current workflow run ID
-          current_run_id=$GITHUB_RUN_ID
-
-          # Get the repository and workflow information
-          repo_owner=$GITHUB_REPOSITORY_OWNER
-          repo_name=$GITHUB_REPOSITORY
-          workflow_name="build Gmeek"
-
-          # Get the list of previous workflow runs
-          previous_runs=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            "https://api.github.com/repos/$repo_owner/$repo_name/actions/workflows/$workflow_name/runs?event=workflow_run")
-
-          # Iterate over previous runs and cancel them
-          for run in $(echo "${previous_runs}" | jq -r '.workflow_runs[].id'); do
-            if [[ $run -ne $current_run_id ]]; then
-              echo "Canceling workflow run ID: $run"
-              curl -s -X POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                "https://api.github.com/repos/$repo_owner/$repo_name/actions/runs/$run/cancel"
-            fi
-          done
-
-          echo "Previous workflows stopped."
-    
   build:
     name: Generate blog
     runs-on: ubuntu-20.04
