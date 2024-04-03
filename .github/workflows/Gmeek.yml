@@ -22,7 +22,7 @@ jobs:
           # Get the repository and workflow information
           repo_owner=$GITHUB_REPOSITORY_OWNER
           repo_name=$GITHUB_REPOSITORY
-          workflow_name=build Gmeek
+          workflow_name="build Gmeek"
 
           # Get the list of previous workflow runs
           previous_runs=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
