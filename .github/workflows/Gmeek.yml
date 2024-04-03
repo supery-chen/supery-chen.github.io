@@ -6,6 +6,10 @@ on:
     types: [opened, edited, deleted, pinned, unpinned, closed, reopened, labeled, unlabeled]
   schedule:
     - cron: "0 16 * * *"
+
+concurrency:
+  group: "build Gmeek"
+  cancel-in-progress: true
     
 jobs:
   build:
